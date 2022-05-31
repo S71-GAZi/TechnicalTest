@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MasterSelDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProductCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesDetail">
+          <Key>
+            <PropertyRef Name="SalesDetailID" />
+          </Key>
+          <Property Name="SalesDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="SalesMasterID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesMaster">
+          <Key>
+            <PropertyRef Name="SalesMasterID" />
+          </Key>
+          <Property Name="SalesMasterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TotalQuantity" Type="int" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__SalesDeta__Produ__286302EC">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="SalesDetail" Type="Self.SalesDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="SalesDetail">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SalesDeta__Sales__276EDEB3">
+          <End Role="SalesMaster" Type="Self.SalesMaster" Multiplicity="1" />
+          <End Role="SalesDetail" Type="Self.SalesDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesMaster">
+              <PropertyRef Name="SalesMasterID" />
+            </Principal>
+            <Dependent Role="SalesDetail">
+              <PropertyRef Name="SalesMasterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MasterSelDBModelStoreContainer">
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesDetail" EntityType="Self.SalesDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesMaster" EntityType="Self.SalesMaster" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__SalesDeta__Produ__286302EC" Association="Self.FK__SalesDeta__Produ__286302EC">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="SalesDetail" EntitySet="SalesDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SalesDeta__Sales__276EDEB3" Association="Self.FK__SalesDeta__Sales__276EDEB3">
+            <End Role="SalesMaster" EntitySet="SalesMaster" />
+            <End Role="SalesDetail" EntitySet="SalesDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MasterSelDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="SalesDetails" Relationship="Self.FK__SalesDeta__Produ__286302EC" FromRole="Product" ToRole="SalesDetail" />
+        </EntityType>
+        <EntityType Name="SalesDetail">
+          <Key>
+            <PropertyRef Name="SalesDetailID" />
+          </Key>
+          <Property Name="SalesDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="SalesMasterID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__SalesDeta__Produ__286302EC" FromRole="SalesDetail" ToRole="Product" />
+          <NavigationProperty Name="SalesMaster" Relationship="Self.FK__SalesDeta__Sales__276EDEB3" FromRole="SalesDetail" ToRole="SalesMaster" />
+        </EntityType>
+        <EntityType Name="SalesMaster">
+          <Key>
+            <PropertyRef Name="SalesMasterID" />
+          </Key>
+          <Property Name="SalesMasterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalQuantity" Type="Int32" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="SalesDetails" Relationship="Self.FK__SalesDeta__Sales__276EDEB3" FromRole="SalesMaster" ToRole="SalesDetail" />
+        </EntityType>
+        <Association Name="FK__SalesDeta__Produ__286302EC">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="SalesDetail" Type="Self.SalesDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="SalesDetail">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SalesDeta__Sales__276EDEB3">
+          <End Role="SalesMaster" Type="Self.SalesMaster" Multiplicity="1" />
+          <End Role="SalesDetail" Type="Self.SalesDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesMaster">
+              <PropertyRef Name="SalesMasterID" />
+            </Principal>
+            <Dependent Role="SalesDetail">
+              <PropertyRef Name="SalesMasterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MasterSelDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="SalesDetails" EntityType="Self.SalesDetail" />
+          <EntitySet Name="SalesMasters" EntityType="Self.SalesMaster" />
+          <AssociationSet Name="FK__SalesDeta__Produ__286302EC" Association="Self.FK__SalesDeta__Produ__286302EC">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="SalesDetail" EntitySet="SalesDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SalesDeta__Sales__276EDEB3" Association="Self.FK__SalesDeta__Sales__276EDEB3">
+            <End Role="SalesMaster" EntitySet="SalesMasters" />
+            <End Role="SalesDetail" EntitySet="SalesDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MasterSelDBModelStoreContainer" CdmEntityContainer="MasterSelDBContext">
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="MasterSelDBModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesDetails">
+            <EntityTypeMapping TypeName="MasterSelDBModel.SalesDetail">
+              <MappingFragment StoreEntitySet="SalesDetail">
+                <ScalarProperty Name="SalesDetailID" ColumnName="SalesDetailID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="SalesMasterID" ColumnName="SalesMasterID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesMasters">
+            <EntityTypeMapping TypeName="MasterSelDBModel.SalesMaster">
+              <MappingFragment StoreEntitySet="SalesMaster">
+                <ScalarProperty Name="SalesMasterID" ColumnName="SalesMasterID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

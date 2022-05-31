@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Technical_Test_Repository.Models.Product>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="btn btn-outline-secondary btn-sm text-white" >
+    @Html.ActionLink("Add Product", "AddProduct")
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
+
+        @*<th>
+            @Html.DisplayNameFor(model => model.Select())
+        </th>*@
+
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+           
+            <td>
+                @Html.ActionLink("Edit", "EditProduct", new { ProductID = item.ProductID } ,new { @class="btn btn-success btn-sm "}) |
+                @Html.ActionLink("Delete", "DeleteProduct", new { ProductID = item.ProductID }, new { @class = "btn btn-danger btn-sm " })
+            </td>
+        </tr>
+    }
+</table>
+
